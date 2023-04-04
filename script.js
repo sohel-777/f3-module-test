@@ -29,7 +29,7 @@ btn.addEventListener("click", getImageOfTheDay);
 function getImageOfTheDay(){
     let newDate = searchDate.value;
     console.log(newDate)
-    // alert(newDate);
+    
     fetch(`https://api.nasa.gov/planetary/apod?api_key=AcFkdizrQGOrJSxn1q4PCSfpkzRRaGyBOVGOnbWm&date=${newDate}`)
         .then((res) => {
             return res.json();
@@ -56,10 +56,14 @@ function addSearchToHistory(newDate){
     let searchHistory = JSON.parse(localStorage.getItem("searches"));
     console.log();
 
-    const temp= newDate.split("-")
-    console.log(temp)
+    const myHtml=searchHistory.map((item)=>{
+        const temp= item.split("-")
+        return`
+        <li><a href="#" onclick="getUserDate(${temp[0]}, ${temp[1]} ,${temp[2]})">${temp[0]}-${temp[1]}-${temp[2]}</a> </li>
+        `
+    })
     
-    searchResult.innerHTML += `<h4 ><a href="#" onclick="getUserDate(${temp[0]}, ${temp[1]} ,${temp[2]})">${temp[0]}-${temp[1]}-${temp[2]}</a> <h4>`;
+    searchResult.innerHTML = myHtml.join(" ");
     console.log(searchDate)
 }
 
@@ -70,7 +74,7 @@ function getUserDate(year, month,date){
             return res.json();
         })
         .then((data) => {
-            // console.log("udiwui",data);
+           
             title.innerHTML = `<h1>Picture On ${data.date} </h1>`;
             img1.innerHTML = `<img src="${data.hdurl}">`;
             pictureDetails.innerHTML = `<h3>${data.title} </h3> <p> ${data.explanation} </p>`;
