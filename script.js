@@ -50,6 +50,12 @@ function saveSearch(newDate){
     localStorage.setItem("searches", JSON.stringify(arr));
 
     
+    
+}
+function addSearchToHistory(newDate){
+    let searchHistory = JSON.parse(localStorage.getItem("searches"));
+    console.log();
+
     const temp= newDate.split("-")
     console.log(temp)
     
